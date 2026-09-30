@@ -12,3 +12,13 @@ backend/gitignored/
 .ai-dev-kit/
 .gemini/
 GEMINI.md
+
+# macOS
+.DS_Store
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+DerivedData/
+build/
