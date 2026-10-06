@@ -2,18 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CLIENT_ID</key>
+	<string>728155585172-um4hn1d52t5oh90f672sr4ar0v1pukqk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.728155585172-um4hn1d52t5oh90f672sr4ar0v1pukqk</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBKzhhbSUK85r59rCfTY64h8wcR7J-o0DE</string>
+	<string>AIzaSyAwna5N_PuylE47J3kxCKzZlC7kWCIotvU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>473056229951</string>
+	<string>728155585172</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>SamKang.Echelon</string>
 	<key>PROJECT_ID</key>
-	<string>echelon-583ae</string>
+	<string>echelon-prod-706c0</string>
 	<key>STORAGE_BUCKET</key>
-	<string>echelon-583ae.firebasestorage.app</string>
+	<string>echelon-prod-706c0.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:473056229951:ios:5f3d39c847c97ed9af968a</string>
+	<string>1:728155585172:ios:055f38962e323c0f12d281</string>
 </dict>
 </plist>

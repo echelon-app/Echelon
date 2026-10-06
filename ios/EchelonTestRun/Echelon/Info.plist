@@ -7,17 +7,14 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google Sign in</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>app-1-473056229951-ios-5f3d39c847c97ed9af968a</string>
+				<string>com.googleusercontent.apps.728155585172-um4hn1d52t5oh90f672sr4ar0v1pukqk</string>
 			</array>
 		</dict>
 	</array>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-	</dict>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
@@ -32,6 +29,11 @@
 				<true/>
 			</dict>
 		</dict>
+	</dict>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
 	</dict>
 </dict>
 </plist>
