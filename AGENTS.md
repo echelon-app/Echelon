@@ -139,7 +139,7 @@ Read by `core/config.py` from the process environment or the repo-root `.env`. `
 - iOS mixes UIKit (`Controllers/`, `MainFloatingTabBarController` is the tab shell) and SwiftUI (`Views/`).
   Firebase is configured in `EchelonApp.swift` (`FirebaseApp.configure()` from `GoogleService-Info.plist`).
 - `GoogleService-Info.plist` is often locally modified; don't commit changes to it casually.
-- Stale docs: `README.md`, `docs/ARCHITECTURE.md`. Trust code and `docs/API_CONTRACTS.md`; `docs/BACKEND_HANDOFF_TODOS.md` lists work iOS already expects.
+- Trust code and `docs/API_CONTRACTS.md` over other docs; `docs/BACKEND_HANDOFF_TODOS.md` lists work iOS already expects.
 
 ## In progress / planned
 

@@ -64,6 +64,29 @@ Returns:
   "experience": []
 }
 
+## POST /api/profile
+
+Requires: `Authorization: Bearer <Firebase ID Token>`
+
+Creates or replaces the authenticated user's profile without a resume.
+
+Accepts JSON (`ProfileCreateRequest`):
+```json
+{
+  "major": "Computer Science",
+  "graduation_year": 2028,
+  "skills": ["Python"],
+  "interests": ["AI"],
+  "coursework": ["Data Structures"],
+  "experience": [],
+  "bio": "Optional free-text bio."
+}
+```
+`major` and `graduation_year` are required; the rest are optional. `graduation_year` is stored as the
+string `class_year` (e.g. `"2028"`).
+
+Response: the saved `StudentProfile`.
+
 ## GET /api/opportunities/recommendations
 
 Requires: `Authorization: Bearer <Firebase ID Token>`
@@ -199,6 +222,30 @@ Response:
   "status": "success"
 }
 ```
+*Label: UNIT-TESTED*
+
+---
+
+## POST /api/agent/chat
+
+Requires: `Authorization: Bearer <Firebase ID Token>`
+
+Career-only chat with the Echelon agent. Uses the student's profile and current career preferences, and saves
+any new preferences it learns (these feed career-track weighting in recommendations).
+
+Accepts JSON:
+```json
+{ "message": "I'm looking for a data science internship in New York." }
+```
+
+Response:
+```json
+{
+  "reply": "I've updated your career preferences to focus on data science roles in New York.",
+  "preferences_updated": true
+}
+```
+Returns `400` if the student has no profile yet.
 *Label: UNIT-TESTED*
 
 ---
