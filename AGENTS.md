@@ -79,8 +79,9 @@ No linter or formatter is configured. The iOS app opens in Xcode via `ios/Echelo
     `ingestion_service.py`, `candidate_retrieval.py`. `eligibility_engine.py` is pure logic.
   - Firebase auth must not contain recommendation logic.
 - `models/`: Pydantic domain models (`StudentProfile`, `Opportunity`, `CareerPreferences`, `Swipe`, recommendation types). `schemas/`: request/response wrappers.
-- `ingestion/`: source adapters (`BaseSourceAdapter.fetch_opportunities()`; `virginia_tech.py`, `simplify_jobs.py`, `web_scraper.py`)
-  and quality filters (`filters.py`, `strict_tech_only=True` by default), driven by `ingestion_service.run_ingestion_pipeline`.
+- `ingestion/`: source adapters (`BaseSourceAdapter.fetch_opportunities()`) and quality filters (`filters.py`, `strict_tech_only=True`
+  by default). `ingestion_service.run_ingestion_pipeline` runs `simplify_jobs.py` and `virginia_tech.py`; `web_scraper.py` is only
+  used by `scripts/simulate_pipeline.py` and tests.
 - `core/config.py` is the single `Settings` source; `app/config.py` re-exports it. Settings load the **repo-root** `.env`.
 - Unused stubs: top-level `/ingestion`, `/src`, and `backend/src`.
 
@@ -101,7 +102,7 @@ Agent chat (`POST /api/agent/chat`) loads context, calls `gemini_service.chat_ag
 All SQL goes through `databricks_service._execute_statement` against a SQL warehouse, authenticated via a
 `~/.databrickscfg` profile. Tables (`student_profiles`, `opportunities`, `swipes`, `saved_opportunities`,
 `career_preferences`) are Delta tables in `DATABRICKS_CATALOG`.`DATABRICKS_SCHEMA`; opportunities upsert with `MERGE`.
-`_row_to_opportunity` maps rows by column name.
+`_row_to_opportunity` maps rows by column name when given the result schema, otherwise by position (as the test mocks do).
 
 ## Environment variables
 
@@ -150,3 +151,4 @@ Read by `core/config.py` from the process environment or the repo-root `.env`. `
 - Career tracks move from 14 tech-only tracks (`gemini_service.classify_opportunity`) to an all-majors taxonomy.
 - Gemini rerank is going off by default. Feeds must work with zero Gemini calls.
 - `POST /api/opportunities/{id}/apply` is called by iOS but not implemented yet.
+- App Store launch work (Sign in with Apple, deployment, privacy manifest) is tracked in `AUTH_AND_DEPLOYMENT_ROADMAP.md`.
