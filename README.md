@@ -43,6 +43,12 @@ uv sync
 uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+Or run the API and Postgres together with Docker (set `POSTGRES_PASSWORD` in `.env` first):
+
+```bash
+docker compose up --build   # from the repo root; `docker compose ps` shows the API's local port
+```
+
 Check `http://localhost:8000/health` returns `{"status": "ok"}`. Run the tests with `uv run pytest` (no `.env` needed).
 
 ## Run the iOS app

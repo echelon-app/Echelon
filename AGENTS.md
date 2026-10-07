@@ -67,6 +67,18 @@ uv run python scripts/run_ingestion.py --max-items 25     # scrape -> filter -> 
 
 No linter or formatter is configured. The iOS app opens in Xcode via `ios/EchelonTestRun/Echelon.xcodeproj` (scheme `EchelonTestRun`).
 
+## Deploy (Openship Cloud)
+
+- Openship deploys the root `docker-compose.yml` as a service stack; every push to `main` redeploys.
+  - `api`: built from `backend/Dockerfile` (Python 3.13-slim, `uv sync --frozen --no-install-project --no-dev`,
+    `uvicorn app.main:app` on port 8000). Public domain on.
+  - `db`: `postgres:16-alpine`, internal only (reachable as `db:5432` from `api`), volume `db-data`.
+- `POSTGRES_PASSWORD` is a secret in Openship's Shared environment: letters and numbers only, since it is embedded in `DATABASE_URL`.
+- Database data does not survive a rebuild unless Openship backups are on.
+- Keep `backend/.dockerignore` excluding `.venv` and `.env`. Don't switch the Openship project to a framework preset
+  (FastAPI preset runs on the bare host) or Static mode.
+- Local: `POSTGRES_PASSWORD=...` in the root `.env`, then `docker compose up --build` from the repo root.
+
 ## Backend layering (`backend/app/`)
 
 - `api/`: thin routers registered in `main.py`. User-facing routes depend on `api/deps.py:get_current_user`,
@@ -112,6 +124,8 @@ Read by `core/config.py` from the process environment or the repo-root `.env`. `
 |---|---|---|---|
 | `GOOGLE_API_KEY` | For Gemini features | Gemini API key used by `gemini_service` | `echelon-prod` Cloud console → APIs & Services → Credentials (Gemini-restricted key) |
 | `FIREBASE_CREDENTIALS_PATH` | For authenticated routes | Path to a service-account JSON **outside the repo**; unset → Application Default Credentials | Firebase console → Project settings → Service accounts → Generate new private key (`firebase-adminsdk-fbsvc@echelon-prod-706c0...`) |
+| `POSTGRES_PASSWORD` | For `docker compose` / Openship | Password for the `db` service; letters and numbers only | Generate one; team password manager ("Echelon Postgres (Openship)") |
+| `DATABASE_URL` | Not read yet | Set by `docker-compose.yml` for `api` (`postgresql://echelon:...@db:5432/echelon`); code reads it once the Postgres port lands | n/a |
 | `DATABRICKS_CONFIG_PROFILE` | Legacy, for persistence | Profile name in `~/.databrickscfg` | Databricks workspace (not in `echelon-prod`) |
 | `DATABRICKS_WAREHOUSE_ID` | Legacy, for persistence | SQL warehouse ID | Databricks workspace |
 | `DATABRICKS_CATALOG` | Legacy, for persistence | Unity Catalog name | Databricks workspace |
@@ -144,8 +158,8 @@ Read by `core/config.py` from the process environment or the repo-root `.env`. `
 
 ## In progress / planned
 
-- Databricks → a new Postgres database on Openship Cloud, starting empty and filled by re-running ingestion.
-- The repo is moving to the public `echelon-app` GitHub org.
+- Databricks → Postgres. Postgres is live on Openship (`db` service) but empty; persistence still goes through
+  Databricks until `databricks_service` is ported. It will be filled by re-running ingestion.
 - The sample cards (`OpportunityCard.mockDeck` in `DataModels.swift`, the `MatchStore` fallback deck) and the demo login
   (`signInDemo` in `AuthService.swift`) are being removed. Don't build on them.
 - Career tracks move from 14 tech-only tracks (`gemini_service.classify_opportunity`) to an all-majors taxonomy.
